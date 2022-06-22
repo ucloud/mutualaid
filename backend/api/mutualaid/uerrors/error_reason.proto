@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package api.mutualaid.uerrors;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/ucloud/mutualaid/backend/uerrors;uerrors";
+option java_package = "com.ucloud.csr.mutualaid.mutualaid.uerrors";
+option java_outer_classname = "UStoreErrorProto";
+option java_multiple_files = true;
+
+enum ErrorReason {
+  option (errors.default_code) = 500;
+
+  UnSpecified      = 0 ;
+  BAD_REQUEST      = 1 [(errors.code) = 400];
+  VALIDATOR        = 2 [(errors.code) = 400];
+  RATELIMIT        = 3 [(errors.code) = 400];
+  CIRCUITBREAKER   = 4 [(errors.code) = 400];
+  PERMISSION_ERROR = 5 [(errors.code) = 400];
+  UNLOGIN_ERROR    = 6 [(errors.code) = 403];
+
+  INFRA_DB_OPEN_ERROR        = 21 [(errors.code) = 503];
+  INFRA_DB_CREATE_ERROR      = 22 [(errors.code) = 503];
+  INFRA_DB_UPDATE_ERROR      = 23 [(errors.code) = 503];
+  INFRA_DB_UPDATE_CONFLICT   = 24 [(errors.code) = 503];
+  INFRA_DB_DELETE_ERROR      = 25 [(errors.code) = 503];
+  INFRA_DB_SELECT_ERROR      = 26 [(errors.code) = 503];
+  INFRA_CACHE_OPEN_ERROR     = 27 [(errors.code) = 503];
+  INFRA_CACHE_SET_ERROR      = 28 [(errors.code) = 503];
+  INFRA_CACHE_DELETE_ERROR   = 29 [(errors.code) = 503];
+  INFRA_CACHE_GET_ERROR      = 30 [(errors.code) = 503];
+  INFRA_CACHE_RANGE_ERROR    = 31 [(errors.code) = 503];
+  INFRA_CACHE_DATA_ERROR     = 32 [(errors.code) = 503];
+  INFRA_DATA_NOT_FOUND       = 33 [(errors.code) = 503];
+  INFRA_CACHE_NEEDS_REBUILD  = 34 [(errors.code) = 503];
+  INFRA_INVALID_PARAM        = 35 [(errors.code) = 503];
+  INFRA_JSON_MARSHAL_ERROR   = 36 [(errors.code) = 503];
+  INFRA_JSON_UNMARSHAL_ERROR = 37 [(errors.code) = 503];
+
+  BIZ_NOT_ENOUGH_STOCK      = 100 [(errors.code) = 404];
+  BIZ_DATA_NOT_FOUND        = 101 [(errors.code) = 404];
+  BIZ_ORDER_ALREADY_EXISTED = 102 [(errors.code) = 404];
+  BIZ_UPDATE_CONFLICT       = 103 [(errors.code) = 404];
+  BIZ_SPU_NOT_AVAILABLE     = 104 [(errors.code) = 404];
+  BIZ_INVALID_PARAM         = 105 [(errors.code) = 503];
+  BIZ_USER_BLOCK            = 106 [(errors.code) = 503];
+  BIZ_ERROR_EXAMINE_STEP    = 107 [(errors.code) = 503];
+  BIZ_LOGIN_FAIL            = 108 [(errors.code) = 404];
+
+  // 错误码: 1000
+
+  // 订单错误码
+  BAD_PAYMENT_METHOD                 = 1001 [(errors.code) = 400];
+  BUYER_ID_ABSENT                    = 1002 [(errors.code) = 400];
+  COMPANY_ID_ABSENT                  = 1003 [(errors.code) = 400];
+  ORDER_LINE_ABSENT                  = 1004 [(errors.code) = 400];
+  ORDER_SKU_QTY_ABSENT               = 1005 [(errors.code) = 400];
+  ORDER_SKU_QTY_WITH_COUPON_EXCEEDED = 1006 [(errors.code) = 400];
+  ORDER_SKU_QTY_EXCEEDED             = 1007 [(errors.code) = 400];
+  ORDER_COUPON_UNAVAILABLE           = 1008 [(errors.code) = 400];
+  ORDER_RECIPIENT_ABSENT             = 1009 [(errors.code) = 400];
+  ORDER_RECIPIENT_NAME_ABSENT        = 1010 [(errors.code) = 400];
+  ORDER_RECIPIENT_EMAIL_ABSENT       = 1011 [(errors.code) = 400];
+  ORDER_RECIPIENT_CONTACT_ABSENT     = 1012 [(errors.code) = 400];
+  ORDER_RECIPIENT_ADDR_ABSENT        = 1013 [(errors.code) = 400];
+  ORDER_DATA_NOT_FOUND               = 1014 [(errors.code) = 400];
+  SHIPPER_DATA_NOT_FOUND             = 1015 [(errors.code) = 400];
+  MAIL_TYPE_UNSUPPORTED              = 1016 [(errors.code) = 400];
+  ORDER_COUPON_USED                  = 1017 [(errors.code) = 400];
+  ORDER_COUPON_QTY_EXCEEDED          = 1018 [(errors.code) = 400];
+  ORDER_COUPON_EXPIRED               = 1019 [(errors.code) = 400];
+  ORDER_HAS_CREATED                  = 1020 [(errors.code) = 400];
+  FAIL_TO_SAVE_DATA_INTO_DB          = 2000 [(errors.code) = 500];
+  FAIL_TO_RETRIEVE_PRICE             = 2001 [(errors.code) = 500];
+  FAIL_TO_REDUCE_INVENTORY           = 2002 [(errors.code) = 500];
+  FAIL_TO_ALLOCATE_RESOURCE          = 2003 [(errors.code) = 500];
+  FAIL_TO_PREPAY_WXPAY               = 2004 [(errors.code) = 500];
+  FAIL_TO_QUERY_WXPAY                = 2005 [(errors.code) = 500];
+  FAIL_TO_CREATE_MQ_MESSAGE          = 2006 [(errors.code) = 500];
+  PRODUCT_DATA_NOT_FOUND             = 2007 [(errors.code) = 500];
+  FAIL_TO_SEND_MQ_MESSAGE            = 2008 [(errors.code) = 500];
+  FAIL_TO_PUSH_MESSAGE               = 2009 [(errors.code) = 500];
+  FAIL_TO_GET_USER_PASSWORD          = 2010 [(errors.code) = 500];
+  FAIL_TO_REVOKE_INVENTORY           = 2011 [(errors.code) = 500];
+  SPU_NOT_AVAILABLE                  = 2012 [(errors.code) = 500]; // spu 不可用
+  // 后台订单错误码
+  FAIL_TO_GET_ORDER_LIST = 3000 [(errors.code) = 500];
+  FAIL_TO_GET_ORDER_LINE = 3001 [(errors.code) = 500];
+  FAIL_TO_SHIP_ORDER     = 3002 [(errors.code) = 500];
+}

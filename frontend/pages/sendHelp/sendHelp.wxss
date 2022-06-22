@@ -1,0 +1,74 @@
+.index-wrap-box {
+  position: relative;
+  padding-bottom: 24rpx;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.list {
+  width: 100%;
+  height: auto;
+  margin-top: 10rpx;
+  padding: 32rpx 0 32rpx 32rpx;
+  background: #fff;
+  overflow: hidden;
+}
+
+.list .list-inner {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+/* 头部 */
+.item-head-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 32rpx;
+  padding-bottom: 8rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.item-head-box .top-distance {
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+/* 内容区 */
+.item-content-box {
+  margin-top: 16rpx;
+  margin-bottom: 16rpx;
+  padding-right: 32rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #333333;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.item-label {
+  margin-right: 16rpx;
+}
+
+.item-time-box {
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  font-weight: 300;
+  color: #666666;
+}
+
+.status-text {
+  margin-right: 32rpx;
+}

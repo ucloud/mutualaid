@@ -1,0 +1,12 @@
+{
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "我帮助的",
+    "enablePullDownRefresh": true,
+    "usingComponents": {
+        "uc-distance": "../../components/uc-distance/uc-distance",
+        "uc-date": "../../components/uc-date/uc-date",
+        "uc-tags": "../../components/uc-tags/uc-tags",
+        "uc-avatar-name": "../../components/uc-avatar-name/uc-avatar-name"
+      }
+}

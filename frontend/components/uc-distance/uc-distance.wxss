@@ -1,0 +1,34 @@
+.uc-distance {
+  display: inline-block;
+  line-height: 40rpx;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.uc-distance-icon {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+  margin-right: 8rpx;
+}
+
+.uc-distance-value {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 200;
+  vertical-align: middle;
+  margin-right: 24rpx;
+}
+
+.uc-distance-address {
+  font-size: 28rpx;
+  color: #666666;
+  font-weight: 200;
+  vertical-align: middle;
+}
+
+.disabled {
+  color: #bbbbbb;
+}

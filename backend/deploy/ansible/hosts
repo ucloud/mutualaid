@@ -1,0 +1,8 @@
+[backend]
+2003:da8:2004:1000:0a17:2f92:0925:d0e3
+# 2003:da8:2004:1000:0a17:3fcb:0925:d0e3
+
+[all:vars]
+ansible_ssh_user=opsbot
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+ansible_python_interpreter=/usr/bin/python

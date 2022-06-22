@@ -1,0 +1,131 @@
+/* detail.wxss */
+.detail-main {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.detail-cells-info {
+  display: flex;
+  flex: 0 0 auto;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.detail-cell-content {
+  overflow: auto;
+}
+
+.detail-cells-helps {
+  flex: 1 1 auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.detail-help-btn-wrapper {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 32rpx;
+  background-color: white;
+}
+
+.detail-help-btn-wrapper::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 64rpx;
+  top: -64rpx;
+  left: 0;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+  pointer-events: none;
+}
+
+.detail-help-dialog {
+  padding: 0;
+}
+
+.detail-help-dialog .weui-half-screen-dialog__hd {
+  padding: 0 24px;
+}
+
+.detail-submit-form-btn {
+  margin-top: 80rpx;
+}
+
+.detail-cells {
+  margin: 20rpx 0;
+  background-color: white;
+}
+
+.detail-cells-title {
+  padding: 32rpx 32rpx 8rpx 0;
+  margin-left: 32rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  border-bottom: 1px solid var(--weui-FG-3);
+}
+
+.detail-cell {
+  padding: 32rpx;
+  border-bottom: 1px solid var(--weui-FG-3);
+}
+
+.detail-cell__title {
+  font-size: 34rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.detail-cells-title-right {
+  float: right;
+  color: rgba(0, 0, 0, 0.30);
+}
+
+.detail-cell__avatar {
+  margin-right: 16rpx;
+  vertical-align: middle;
+}
+
+.weui-cell__desc {
+  opacity: 0.5;
+  font-size: 28rpx;
+  color: #000000;
+  font-weight: 400;
+  margin-bottom: 16rpx;
+}
+
+.weui-cell__desc-dark {
+  opacity: 1;
+  color: #333333;
+  text-align: justify;
+  line-height: 40rpx;
+}
+
+.weui-cell__sub-desc {
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: 400;
+}
+
+.detail-no-data {
+  padding: 60rpx 0;
+  background: white;
+  text-align: center;
+  font-size: 24rpx;
+  color: #CCCCCC;
+  line-height: 36px;
+  font-weight: 400;
+}
+
+.select-help-cells {
+  max-height: 500rpx;
+}
+
+/* 分享图片 */
+.share-canvas-wrapper {
+  position: absolute;
+  z-index: -1;
+  left: -999999999px;
+}

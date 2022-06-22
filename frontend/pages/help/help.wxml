@@ -1,0 +1,41 @@
+<mp-form id="form" models="{{formData}}">
+  <mp-cells>
+    <picker bindchange="bindAidTypeChange" value="{{aidTypeValue}}" range="{{aidType}}" range-key="label">
+      <mp-cell link prop="aidType" title="求助类型" footer="{{aidType[aidTypeValue].label || '请选择（必填）'}}">
+      </mp-cell>
+    </picker>
+
+    <picker bindchange="bindAidGroupChange" value="{{aidGroupValue}}" range="{{aidGroup}}" range-key="label">
+      <mp-cell link prop="aidGroup" title="求助人群" footer="{{aidGroup[aidGroupValue].label || '请选择（必填）'}}">
+      </mp-cell>
+    </picker>
+
+    <picker bindchange="bindEmergencyLevelChange" value="{{emergencyLevelValue}}" range="{{emergencyLevel}}" range-key="label">
+      <mp-cell link prop="emergencyLevel" title="紧急程度" footer="{{emergencyLevel[emergencyLevelValue].label || '请选择（必填）'}}">
+      </mp-cell>
+    </picker>
+  </mp-cells>
+
+  <mp-cells>
+    <mp-cell title="联系电话" prop="aidNumber" footer="">
+      <view style="display: flex; align-items: center; ">
+        <input value="{{aidNumber}}" bindinput="onNumberChange"  placeholder="请输入手机号码" />
+        <button plain style="flex: 0 0 auto;white-space: nowrap; padding: 0 0.5em;" type="primary" size="mini" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">点击获取</button>
+      </view>
+    </mp-cell>
+    <mp-cell title="联系地址" prop="aidAddress" bindtap="onAddressFocus" ext-class="address">
+    {{aidAddress || "请输入联系地址"}}
+    </mp-cell>
+</mp-cells>
+
+  <mp-cells title="描述">
+    <mp-cell prop="content">
+      <textarea name="content" bindinput="bindInputChange" maxlength="300" placeholder="请输入描述（必填）" style="height: 8em; width: 100%" />
+      <view class="weui-textarea-counter"><text>{{content.length || 0}}</text>/300</view>
+    </mp-cell>
+  </mp-cells>
+
+  <view class="bottom-area">
+    <button type="primary" disabled="{{btnDisabled}}" bindtap="submitForm" class="submitBtn">提交</button>
+  </view>
+</mp-form>

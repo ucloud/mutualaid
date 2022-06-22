@@ -1,0 +1,8 @@
+---
+
+enable_docker_registry_mirrors: False
+docker_registry_mirrors:
+  - https://mirror.ccs.tencentyun.com
+  - https://registry.cn-hangzhou.aliyuncs.com
+  - https://hub-mirror.c.163.com
+  - https://reg-mirror.qiniu.com

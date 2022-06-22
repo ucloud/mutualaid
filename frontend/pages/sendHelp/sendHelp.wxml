@@ -1,0 +1,31 @@
+<scroll-view scroll-y>
+  <view class='index-wrap-box'>
+    <view class='list' wx:if="{{listArr.length}}" wx:for="{{listArr}}" wx:key="item" data-id="{{item.id}}" bindtap="toDetail">
+      <view class="list-inner">
+        <view class='item-head-box'>
+          <view class="top-person">
+            <uc-avatar-name avatar="{{item.user.icon}}" name="{{item.user.name}}"></uc-avatar-name>
+          </view>
+        </view>
+        <view class="item-time-box {{item.isDisableStatus ? 'disabled-text' : ''}}">
+          <text class="item-label">求助时间</text>
+          <uc-date value="{{item.createTime}}"></uc-date>
+          <view wx:if="{{item.isDisableStatus}}" style="float: right;padding-top: 4rpx;">
+            <view class="status-text green-notice">
+              {{item.statusText}}
+            </view>
+          </view>
+        </view>
+        <view class="item-content-box {{item.isDisableStatus ? 'disabled-text' : ''}}">
+          {{item.content}}
+        </view>
+        <uc-tags tags="{{item}}" disabled="{{item.isDisableStatus}}"></uc-tags>
+        <view class="item-time-box {{item.isDisableStatus ? 'disabled-text' : ''}}" style="line-height: 1;">
+          <uc-distance value="{{item.distance}}" address="{{item.address}}" disabled="{{item.isDisableStatus}}"></uc-distance>
+        </view>
+      </view>
+    </view>
+    <view class="load-all-box" hidden="{{!isAll}}">- 已无更多数据 -</view>
+    <view class="load-all-box" wx:if="{{!isAll && listArr.length}}">数据加载中...</view>
+  </view>
+</scroll-view>

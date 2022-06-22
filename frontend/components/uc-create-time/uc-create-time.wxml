@@ -1,0 +1,4 @@
+<view class="uc-create-time">
+  <text class="label">求助时间</text>
+  <uc-date value="{{value}}"></uc-date>
+</view>

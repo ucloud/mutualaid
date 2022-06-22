@@ -1,0 +1,1 @@
+<image class="uc-avatar {{size ? 'uc-avatar-'+size : '' }}" src="{{src || '../../images/avatar_default.png'}}" />

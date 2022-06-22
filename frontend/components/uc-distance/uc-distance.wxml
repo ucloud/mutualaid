@@ -1,0 +1,5 @@
+<view class="uc-distance">
+  <image class="uc-distance-icon" src="{{disabled ? '../../images/icon_position_disabled.jpg' : '../../images/icon_position.jpg'}}"></image>
+  <text class="uc-distance-value {{disabled ? 'disabled': ''}}">{{valueForShow}}</text>
+  <text class="uc-distance-address {{disabled ? 'disabled': ''}}">{{address}}</text>
+</view>

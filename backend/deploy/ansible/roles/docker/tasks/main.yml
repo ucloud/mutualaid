@@ -1,0 +1,61 @@
+---
+# tasks file for docker
+
+- name: Copy official docker rpm-gpg keys
+  copy:
+    src: RPM-GPG-KEY-docker
+    dest: /tmp
+
+- name: Import official docker rpm-gpg keys
+  ansible.builtin.rpm_key:
+    state: present
+    key: "/tmp/RPM-GPG-KEY-docker"
+
+- name: Add official docker yum repository
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker official repository
+    file: docker-ce
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+    gpgcheck: yes
+
+- name: Install docker and its dependecies
+  yum:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - python-pip
+  notify:
+    - Restart docker
+
+- name: Install Docker SDK for Python
+  pip:
+    name: "{{ item }}"
+  loop:
+    - "docker<5"
+    - "websocket-client<1"
+
+# - name: Add devel user to docker group
+#   user:
+#     name: devel
+#     group: docker
+
+- name: Make sure /etc/docker exists
+  file:
+    path: /etc/docker
+    state: directory
+- name: Add docker registry mirrors
+  copy:
+    content: "{{ lookup('template', 'daemon.json') }}"
+    mode: 0755
+    dest: /etc/docker/daemon.json
+  when: enable_docker_registry_mirrors == True
+  notify:
+    - Restart docker
+
+- meta: flush_handlers

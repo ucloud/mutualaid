@@ -1,0 +1,1060 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /activeuser:
+        post:
+            tags:
+                - UserService
+            description: 小程序激活用户, 是WxLogin的超集
+            operationId: UserService_ActiveUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ActiveUserReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ActiveUserResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /discovery:
+        get:
+            tags:
+                - MutualAidQuery
+            description: |-
+                *
+                  发现接口，需要过滤，只展示等待审核的
+                  发现接口
+            operationId: MutualAidQuery_Discovery
+            parameters:
+                - name: latitude
+                  in: query
+                  description: 纬度，范围为 -90~90，负数表示南纬
+                  schema:
+                    type: number
+                    format: float
+                - name: longitude
+                  in: query
+                  description: 经度，范围为 -180~180，负数表示西经
+                  schema:
+                    type: number
+                    format: float
+                - name: pageNumber
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 页大小
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DiscoveryResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /examine/aid:
+        get:
+            tags:
+                - ExamineAid
+            description: |-
+                *
+                  获取求助列表
+            operationId: ExamineAid_GetExamineList
+            parameters:
+                - name: pageNumber
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 页大小
+                  schema:
+                    type: integer
+                    format: int32
+                - name: examineStatus
+                  in: query
+                  description: 审核状态
+                  schema:
+                    type: integer
+                    format: int32
+                - name: examineStatusOrder
+                  in: query
+                  description: 状态排序规则
+                  schema:
+                    type: string
+                - name: createTimeOrder
+                  in: query
+                  description: 创建时间排序规则
+                  schema:
+                    type: string
+                - name: updateTimeOrder
+                  in: query
+                  description: 更新时间排序规则
+                  schema:
+                    type: string
+                - name: vagueSearch
+                  in: query
+                  description: 审核状态
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExamineListResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /examine/aid/{id}:
+        post:
+            tags:
+                - ExamineAid
+            description: |-
+                *
+                  审核消息
+            operationId: ExamineAid_ExamineAid
+            parameters:
+                - name: id
+                  in: path
+                  description: 求助ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ExamineAidReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExamineAidResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /examine/blockuser:
+        get:
+            tags:
+                - ExamineAid
+            description: 获取屏蔽用户列表
+            operationId: ExamineAid_GetBlockUserList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetBlockUserListResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /examine/user/{id}:
+        post:
+            tags:
+                - ExamineAid
+            description: 恢复用户（包含恢复其消息）
+            operationId: ExamineAid_PassUser
+            parameters:
+                - name: id
+                  in: path
+                  description: 用户ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PassUserReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PassUserResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - ExamineAid
+            description: 拉黑用户（包含屏蔽基消息）
+            operationId: ExamineAid_BlockUser
+            parameters:
+                - name: id
+                  in: path
+                  description: 用户ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BlockUserResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /examine_login:
+        post:
+            tags:
+                - ExamineAid
+            description: |-
+                *
+                  审核用户登录
+            operationId: ExamineAid_ExamineLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ExamineLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExamineLoginResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /js_api_sign:
+        post:
+            tags:
+                - UserService
+            description: 辅助前端进行参数签名
+            operationId: UserService_JSAPISign
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/JSAPISignReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/JSAPISignResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user:
+        get:
+            tags:
+                - UserService
+            description: 查看自己的信息
+            operationId: UserService_GetUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetUserResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/aid:
+        post:
+            tags:
+                - UserAidManager
+            description: |-
+                *
+                  新建求助
+            operationId: UserAidManager_CreateAid
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAidReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAidResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/aid/message:
+        post:
+            tags:
+                - UserAidManager
+            description: |-
+                *
+                  留言接口
+            operationId: UserAidManager_CreateAidMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAidMessageReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAidMessageResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/aid/needs:
+        get:
+            tags:
+                - UserAidQuery
+            description: |-
+                *
+                  我的求助查询接口,这里可以展示自己全部的消息
+                  我的求助查询接
+            operationId: UserAidQuery_ListAidNeeds
+            parameters:
+                - name: pageNumber
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pageSize
+                  in: query
+                  description: 页大小
+                  schema:
+                    type: integer
+                    format: int64
+                - name: latitude
+                  in: query
+                  description: 纬度，范围为 -90~90，负数表示南纬
+                  schema:
+                    type: number
+                    format: float
+                - name: longitude
+                  in: query
+                  description: 经度，范围为 -180~180，负数表示西经
+                  schema:
+                    type: number
+                    format: float
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAidNeedsResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/aid/offered:
+        get:
+            tags:
+                - UserAidQuery
+            description: |-
+                *
+                  我的帮助查询接口,这里可以展示自己全部的消息
+            operationId: UserAidQuery_ListAidOffered
+            parameters:
+                - name: pageNumber
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pageSize
+                  in: query
+                  description: 页大小
+                  schema:
+                    type: integer
+                    format: int64
+                - name: latitude
+                  in: query
+                  description: 纬度，范围为 -90~90，负数表示南纬
+                  schema:
+                    type: number
+                    format: float
+                - name: longitude
+                  in: query
+                  description: 经度，范围为 -180~180，负数表示西经
+                  schema:
+                    type: number
+                    format: float
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAidOfferedResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /user/aid/{id}:
+        get:
+            tags:
+                - UserAidQuery
+            description: |-
+                *
+                  求助详情查询接口
+            operationId: UserAidQuery_GetAidDetail
+            parameters:
+                - name: id
+                  in: path
+                  description: 求助ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+                - name: latitude
+                  in: query
+                  description: 纬度，范围为 -90~90，负数表示南纬
+                  schema:
+                    type: number
+                    format: float
+                - name: longitude
+                  in: query
+                  description: 经度，范围为 -180~180，负数表示西经
+                  schema:
+                    type: number
+                    format: float
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetAidDetailResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - UserAidManager
+            description: |-
+                *
+                  完成救助接口
+            operationId: UserAidManager_FinishAid
+            parameters:
+                - name: id
+                  in: path
+                  description: 求助ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FinishAidReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FinishAidResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - UserAidManager
+            description: |-
+                *
+                  我的求助查询接口
+            operationId: UserAidManager_CancelAid
+            parameters:
+                - name: id
+                  in: path
+                  description: 求助ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CancelAidResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /wx_phone_number:
+        get:
+            tags:
+                - UserService
+            description: 小程序取用户手机号
+            operationId: UserService_WxPhoneNumber
+            parameters:
+                - name: phoneCode
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WxPhoneNumberResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /wxlogin:
+        post:
+            tags:
+                - UserService
+            description: 小程序wx.Login
+            operationId: UserService_WxLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/WxLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WxLoginResp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /wxoauth2:
+        get:
+            tags:
+                - UserService
+            description: 公众号oauth
+            operationId: UserService_WxOAuth2
+            parameters:
+                - name: code
+                  in: query
+                  schema:
+                    type: string
+                - name: state
+                  in: query
+                  schema:
+                    type: string
+                - name: openid
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WxOAuth2Resp'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        ActiveUserReq:
+            type: object
+            properties:
+                loginCode:
+                    type: string
+                phoneCode:
+                    type: string
+                openId:
+                    type: string
+                addr:
+                    type: string
+                longitude:
+                    type: number
+                    format: float
+                latitude:
+                    type: number
+                    format: float
+                name:
+                    type: string
+                icon:
+                    type: string
+        ActiveUserResp:
+            type: object
+            properties: {}
+        Aid:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 求助ID
+                    format: uint64
+                type:
+                    type: integer
+                    description: 求助类型
+                    format: int32
+                group:
+                    type: integer
+                    description: 求助人群
+                    format: int32
+                emergency:
+                    type: integer
+                    description: 紧急程度
+                    format: int32
+                content:
+                    type: string
+                    description: 求助内容，即求助描述
+                distance:
+                    type: integer
+                    description: 距离（米）
+                    format: int64
+                createTime:
+                    type: integer
+                    description: 求助时间，UNIX时间戳
+                    format: int64
+                status:
+                    type: integer
+                    description: 状态
+                    format: int32
+                examineStatus:
+                    type: integer
+                    description: 审核状态
+                    format: int32
+                messageCount:
+                    type: integer
+                    description: 留言数量
+                    format: int32
+                message:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Message'
+                    description: 帮助留言
+                user:
+                    $ref: '#/components/schemas/UserInfo'
+                displayPim:
+                    type: boolean
+                    description: 个人信息是否可见
+                updateTime:
+                    type: integer
+                    description: 更新时间
+                    format: int64
+                userId:
+                    type: integer
+                    description: 用户Id
+                    format: int64
+                address:
+                    type: string
+                    description: 地址
+        BlockUserInfo:
+            type: object
+            properties:
+                name:
+                    type: string
+                phone:
+                    type: string
+                icon:
+                    type: string
+                addr:
+                    type: string
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: integer
+                    format: int64
+                status:
+                    type: integer
+                    format: int64
+        BlockUserResp:
+            type: object
+            properties: {}
+        CancelAidResp:
+            type: object
+            properties: {}
+        CreateAidMessageReq:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 求助ID
+                    format: uint64
+                phone:
+                    type: string
+                    description: 联系电话
+                content:
+                    type: string
+                    description: 留言内容，即帮助信息
+        CreateAidMessageResp:
+            type: object
+            properties: {}
+        CreateAidReq:
+            type: object
+            properties:
+                latitude:
+                    type: number
+                    description: 纬度，范围为 -90~90，负数表示南纬
+                    format: float
+                longitude:
+                    type: number
+                    description: 经度，范围为 -180~180，负数表示西经
+                    format: float
+                type:
+                    type: integer
+                    description: 求助类型
+                    format: enum
+                group:
+                    type: integer
+                    description: 求助人群
+                    format: enum
+                emergency:
+                    type: integer
+                    description: 紧急程度
+                    format: enum
+                content:
+                    type: string
+                    description: 求助内容，即求助描述
+                phone:
+                    type: string
+                    description: 联系电话
+                addr:
+                    type: string
+                    description: 联系电话
+        CreateAidResp:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 求助ID
+                    format: uint64
+        DiscoveryResp:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Aid'
+                    description: 求助列表
+                totalSize:
+                    type: integer
+                    description: 总数
+                    format: int64
+        ExamineAidReq:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 求助ID
+                    format: uint64
+                examineAction:
+                    type: string
+                    description: 执行动作，审核通与不通过。
+        ExamineAidResp:
+            type: object
+            properties: {}
+        ExamineListResp:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Aid'
+                    description: 等待审核的求助列表
+                totalSize:
+                    type: integer
+                    description: 订单总数
+                    format: int64
+                waitingSize:
+                    type: integer
+                    description: 待审核订单总数
+                    format: int64
+                passSize:
+                    type: integer
+                    description: 通过订单总数
+                    format: int64
+                blockSize:
+                    type: integer
+                    description: 驳回订单总数
+                    format: int64
+        ExamineLoginReq:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+        ExamineLoginResp:
+            type: object
+            properties: {}
+        FinishAidReq:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 求助ID
+                    format: uint64
+                messageId:
+                    type: integer
+                    description: 最有用留言ID，自己解决则不传。
+                    format: uint64
+        FinishAidResp:
+            type: object
+            properties: {}
+        GetAidDetailResp:
+            type: object
+            properties:
+                aid:
+                    $ref: '#/components/schemas/Aid'
+                isMyAid:
+                    type: boolean
+                    description: 是不是我发的求助
+                isMyHelp:
+                    type: boolean
+                    description: 是不是我帮助过的求助
+        GetBlockUserListResp:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/BlockUserInfo'
+        GetUserResp:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/UserInfo'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        JSAPISignReq:
+            type: object
+            properties:
+                apiUrl:
+                    type: string
+        JSAPISignResp:
+            type: object
+            properties:
+                noncestr:
+                    type: string
+                timestamp:
+                    type: integer
+                    format: int64
+                sign:
+                    type: string
+        ListAidNeedsResp:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Aid'
+                    description: 求助列表
+                totalSize:
+                    type: integer
+                    description: 总数
+                    format: int64
+        ListAidOfferedResp:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Aid'
+                    description: 求助列表
+                totalSize:
+                    type: integer
+                    description: 总数
+                    format: int64
+        Message:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 留言ID
+                    format: uint64
+                maskPhone:
+                    type: string
+                    description: 联系电话, 经过脱敏处理
+                content:
+                    type: string
+                    description: 留言内容，即帮助说明
+                createTime:
+                    type: integer
+                    description: 回复时间，UNIX时间戳
+                    format: int64
+                status:
+                    type: integer
+                    description: 状态
+                    format: int32
+                user:
+                    $ref: '#/components/schemas/UserInfo'
+                displayPim:
+                    type: boolean
+                    description: 个人信息是否可见
+            description: 留言
+        PassUserReq:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 用户ID
+                    format: uint64
+        PassUserResp:
+            type: object
+            properties: {}
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UserInfo:
+            type: object
+            properties:
+                name:
+                    type: string
+                phone:
+                    type: string
+                icon:
+                    type: string
+                addr:
+                    type: string
+                status:
+                    type: string
+        WxLoginReq:
+            type: object
+            properties:
+                loginCode:
+                    type: string
+                name:
+                    type: string
+        WxLoginResp:
+            type: object
+            properties:
+                needActive:
+                    type: boolean
+        WxOAuth2Resp:
+            type: object
+            properties: {}
+        WxPhoneNumberResp:
+            type: object
+            properties:
+                phone:
+                    type: string
+tags:
+    - name: ExamineAid
+    - name: MutualAidQuery
+    - name: UserAidManager
+    - name: UserAidQuery
+    - name: UserService

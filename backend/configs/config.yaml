@@ -1,0 +1,50 @@
+env: dev
+server:
+  http:
+    addr: 0.0.0.0:28000
+    timeout: 555s
+  grpc:
+    addr: 0.0.0.0:29000
+    timeout: 5s
+data:
+  database:
+    driver: mysql
+    source: mutualaiduser:DemoPassWord@tcp(127.0.0.1:3306)/mutualaid?charset=utf8mb4&parseTime=True&loc=Local
+    slow_threshold: 0.2s
+  redis:
+    addrs:
+      - 127.0.0.1:7001
+      - 127.0.0.1:7002
+      - 127.0.0.1:7003
+      - 127.0.0.1:7004
+      - 127.0.0.1:7005
+    pool_size: 60
+    min_idle_conn: 10
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+
+proxy:
+  wxkey:
+    WPAppID: "应用Id,微信侧生成"
+    WPSecret: "密钥,微信侧生成"
+    AppID: "应用Id,微信侧生成"
+    Secret: "密钥,微信侧生成"
+    BaseURL: "https://api.weixin.qq.com"
+    endpoint: "endpoint"
+    msgTpl:
+      帮助被采纳提醒:
+        id: _微信侧生成消息模板Id,下为模板中的替换字符串
+        args:
+          求助编号: character_string1
+          求助内容: thing2
+          回复内容: thing3
+          采纳时间: time4
+      收到帮助提醒:
+        id: _微信侧生成消息模板Id,下为模板中的替换字符串
+        args:
+          求助编号: character_string1
+          求助内容: thing2
+          回复人: thing3
+          回复内容: thing4
+          回复时间: time5
+bizConfig:

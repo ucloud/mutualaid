@@ -1,0 +1,75 @@
+syntax = "proto3";
+package mutualaid.api;
+
+option go_package = "mutualaid/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  string env = 1;
+  Server server = 2;
+  Data data = 3;
+  Proxy proxy = 4;
+  BizConfig bizConfig = 5;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+    google.protobuf.Duration slow_threshold = 3;
+  }
+  message Redis {
+    string network = 1;
+    repeated string addrs = 2;
+    string user_name = 3;
+    string password = 4;
+    uint32 pool_size = 5;
+    uint32 min_idle_conn = 6;
+    google.protobuf.Duration read_timeout = 7;
+    google.protobuf.Duration write_timeout = 8;
+  }
+  Database database = 1;
+  Redis redis = 3;
+}
+
+message Proxy {
+  message Endpoint {
+    string scheme = 1;
+    string endpoint = 2;
+  }
+
+  WXKey wxkey = 1;
+}
+
+message TPLArgs {
+  string id = 1;
+  map<string,string>args = 2;
+}
+
+message WXKey {
+  string AppID = 1;
+  string Secret = 2;
+  string BaseURL = 3;
+  string WPAppID = 4;
+  string WPSecret = 5;
+  map<string,TPLArgs>msgTpl  = 6;
+}
+
+message BizConfig {
+}

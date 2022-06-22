@@ -1,0 +1,36 @@
+---
+
+- hosts: backend
+  become: true
+  vars:
+    image_tag: "{{ version | default('v0.0.1-65') }}"
+    image_name: "uhub.service.ucloud.cn/mutualaid/mutualaid"
+    uhub_login_name: "{{ login }}"
+    uhub_login_pass: "{{ password }}"
+
+  pre_tasks:
+    - name: Login uhub docker registry
+      community.docker.docker_login:
+        registry: uhub.service.ucloud.cn
+        username: "{{ uhub_login_name }}"
+        password: "{{ uhub_login_pass }}"
+
+  tasks:
+    - name: "Pull image {{ image_name }}:{{ image_tag }}"
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        tag: "{{ image_tag }}"
+        source: pull
+
+    - name: Deploy new mutualaid version
+      community.docker.docker_container:
+        name: mutualaid
+        image: "{{ image_name }}:{{ image_tag }}"
+        state: started
+        restart: yes
+        mounts:
+          - source: "/data/mutualaid/log"
+            target: "/var/log/mutualaid"
+            type: bind
+        ports:
+         - "28000:28000"

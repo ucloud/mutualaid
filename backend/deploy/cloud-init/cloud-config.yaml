@@ -1,0 +1,16 @@
+#cloud-config
+
+groups:
+  - opsbot
+
+# opsbot is required to run ansible
+users:
+  - name: opsbot
+    gecos: devops robot
+    primary_group: opsbot
+    groups: wheel
+    expiredate: '2032-09-01'
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzHnLm/NcRNCudCnzXMNFF2pKW9twYYKJc1izMRAIVR devops robot

@@ -1,0 +1,44 @@
+/* 标签组合 */
+.item-tag-box {
+    display: flex;
+}
+
+.tag-item {
+    flex: 0 0 auto;
+    padding: 4rpx 16rpx;
+    border-radius: 28rpx;
+    font-size: 24rpx;
+    margin-right: 18rpx;
+}
+
+.tag-type,
+.tag-person {
+    background: var(--themeLightGrayColor);
+    color: #333;
+}
+
+.tag-level {
+    color: #fff;
+}
+
+.level-one {
+    background: var(--themeRedColor);
+}
+
+.level-two {
+    background: var(--themeOrangeColor);
+}
+
+.level-three {
+    background: var(--themeDarkBlueColor);
+}
+
+.level-four {
+    background: var(--themeGreenColor);
+}
+
+/* 禁用状态 */
+.disabled-status {
+    background-color: #f2f2f2;
+    color: #c6c6c6;
+}

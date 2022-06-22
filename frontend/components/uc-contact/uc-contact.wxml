@@ -1,0 +1,13 @@
+<view class="uc-contact">
+  <image class="uc-contact__icon" src="{{hide ? '../../images/lock.png':'../../images/unlock.png'}}"></image>
+  <view class="uc-contact__detail">
+    <view class="uc-contact__detail-main">
+      <text wx:if="{{!hide}}">{{address}}</text>
+      <text wx:else>联系方式回复后可见</text>
+    </view>
+    <view class="uc-contact__detail-desc">
+      <view wx:if="{{!hide}}">联系电话：<text style="color: #07C160;" bindtap="callPhone" data-phone="{{phone}}">{{phone}}</text></view>
+      <text wx:else>点击下方“我要帮助”</text>
+    </view>
+  </view>
+</view>

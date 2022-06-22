@@ -1,0 +1,14 @@
+{
+  "name": "mutual-aid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wxml-to-canvas": "1.0.1"
+  }
+}
