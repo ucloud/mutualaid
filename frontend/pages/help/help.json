@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "发布求助信息",
+  "usingComponents": {
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-toptips": "weui-miniprogram/toptips/toptips",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell"
+  }
+}

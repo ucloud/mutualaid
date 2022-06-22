@@ -1,0 +1,9 @@
+.uc-create-time {
+  font-size: 28rpx;
+  color: #666666;
+  font-weight: 200;
+}
+
+.label {
+  margin-right: 16rpx;
+}

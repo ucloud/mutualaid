@@ -1,0 +1,117 @@
+<view class="share-canvas-wrapper">
+  <wxml-to-canvas class="share-canvas"></wxml-to-canvas>
+</view>
+<!-- pages/detail/detail.wxml -->
+<view wx:if="{{isLogin && !!status}}" class='detail-main'>
+  <!-- 求助信息 -->
+  <view class="detail-cells detail-cells-info">
+    <view class="detail-cells-title">
+      <uc-avatar-name avatar="{{aidInfo.user.icon}}" name="{{aidInfo.user.name}}"></uc-avatar-name>
+    </view>
+    <view class="detail-cell detail-cell-content">
+      <uc-create-time style="display:block;margin-bottom: 16rpx;" value="{{aidInfo.createTime}}"></uc-create-time>
+      <view style="word-break: break-all;" class="weui-cell__desc weui-cell__desc-dark">{{aidInfo.content}}</view>
+      <uc-tags tags="{{aidInfo}}"></uc-tags>
+      <uc-contact phone="{{aidInfo.user.phone}}" hide="{{!aidInfo.displayPim}}" style="display:block;margin-top: 16rpx;"></uc-contact>
+      <view style="margin-top: 8rpx;">
+        <uc-distance value="{{aidInfo.distance}}" address="{{aidInfo.address}}"></uc-distance>
+      </view>
+    </view>
+  </view>
+
+  <!-- 得到帮助列表 -->
+  <view class="detail-cells detail-cells-helps">
+    <view class="detail-cells-title">得到帮助（{{aidInfo.messageCount}}）</view>
+    <view wx:if="{{aidInfo.messageCount>0}}">
+      <view class="detail-cell" wx:for="{{aidMessages}}">
+        <view class="detail-cell__title">
+          <uc-avatar class="detail-cell__avatar" src="{{item.user.icon}}"></uc-avatar>
+          <text>{{item.user.name||"匿名"}}</text>
+        </view>
+        <view class="weui-cell__desc">{{item.content}}</view>
+        <view class="weui-cell__sub-desc">
+          <uc-date value="{{item.createTime}}"></uc-date>｜ 联系电话：
+          <text wx:if="{{item.displayPim}}" style="color: #07C160;" bindtap="callPhone" data-phone="{{item.user.phone}}">{{item.user.phone}}</text>
+          <text wx:else>{{item.maskPhone}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="detail-no-data">
+      <text wx:if="{{isMyAid}}">别着急，附近的热心人会第一时间看到的</text>
+      <text wx:else>该条求助还没有得到帮助</text>
+    </view>
+  </view>
+
+  <!-- 底部操作按钮 -->
+  <view wx:if="{{status}}" class="detail-help-btn-wrapper">
+    <!-- 问题已解决 -->
+    <button wx:if="{{status ==='Finished'}}" disabled>已解决</button>
+    <!-- 问题已关闭 -->
+    <button wx:elif="{{status ==='Canceled'}}" disabled>已关闭</button>
+    <!-- 我的求助 -->
+    <view wx:elif="{{isMyAid}}" style="text-align: center;">
+      <button type="default" disabled="{{aidInfo.status === 15 || aidInfo.status === 20}}" bindtap="cancelHelp" style="display:inline-block;width: 228rpx;margin-right:15rpx;vertical-align: middle;">取消求助</button>
+      <button type="default" type="primary" disabled="{{aidInfo.status === 15 || aidInfo.status === 20}}" bindtap="finishlHelp" style="display:inline-block;width: 442rpx;margin: 0;vertical-align: middle;">问题已解决</button>
+    </view>
+    <!-- 别人的求助 -->
+    <view wx:else>
+      <button wx:if="{{isMyHelp}}" type="primary" disabled>已帮助</button>
+      <button wx:else type="primary" bindtap="handleHelp">我来帮助</button>
+    </view>
+  </view>
+</view>
+
+<!-- 提供帮助弹窗 -->
+<mp-half-screen-dialog extClass="detail-help-dialog" show="{{showHelpForm}}" maskClosable="{{true}}">
+  <view slot="title">提供帮助</view>
+  <view slot="desc">
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+      <mp-cells>
+        <mp-cell style="{{error && isPhoneError && 'color: red;'}}" title="联系电话" prop="phone">
+          <input value="{{formData.phone}}" placeholder-style="color: rgba(0,0,0,0.3)" id="phone" data-field="phone" class="weui-input" placeholder="请输入联系电话" bindinput="onFormControlChange" />
+          <button slot="footer" plain style="white-space: nowrap; padding: 0 13rpx;" type="primary" size="mini" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">点击获取</button>
+        </mp-cell>
+        <mp-cell prop="info">
+          <view style="opacity:0.5;font-size: 28rpx;padding-bottom:16rpx;border-bottom: 1px solid var(--weui-FG-3);">帮助说明</view>
+          <textarea placeholder-style="color: rgba(0,0,0,0.3)" class="weui-textarea" data-field="info" bindinput="onFormControlChange" maxlength="300" style="padding: 30rpx 0;height:200rpx;" placeholder="请输入您的留言"></textarea>
+          <view class="weui-textarea-counter"><text>{{formData.info.length || 0}}</text>/300</view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+    <view slot="button">
+      <button class="detail-submit-form-btn weui-btn" type="primary" disabled="{{ !formData.phone || !formData.info }}" bindtap="submitForm">提交</button>
+    </view>
+  </view>
+</mp-half-screen-dialog>
+
+<!-- 选择有用的帮助 -->
+<mp-half-screen-dialog extClass="detail-select-dialog" show="{{showSelectForm}}" bindbuttontap="selectHelp" maskClosable="{{true}}" buttons="{{selectDialogBtns}}">
+  <view slot="title">请选择最有用的帮助</view>
+  <view slot="desc">
+    <mp-cells ext-class="select-help-cells">
+      <mp-cell bindtap="helpRadioChange" data-key="$$by_self">
+        <view>自己解决了问题</view>
+        <view slot="footer">
+          <mp-icon wx:if="{{selectedHelpKey === '$$by_self'}}" type="outline" icon="done" color="green"></mp-icon>
+        </view>
+      </mp-cell>
+      <mp-cell wx:for="{{aidMessages}}" wx:key="id">
+        <view bindtap="helpRadioChange" data-key="{{item.id}}">
+          <view class="detail-cell__title" style="display: flex;align-items: center;">
+            <uc-avatar class="detail-cell__avatar" style="flex: 0 0 auto;" size="lg" src="{{item.user.icon}}"></uc-avatar>
+            <view>
+              {{item.user.name||"匿名"}}
+              <view style="width:420rpx;opacity:0.3;font-size: 28rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.content}}</view>
+            </view>
+          </view>
+        </view>
+        <view slot="footer">
+          <mp-icon wx:if="{{selectedHelpKey===item.id}}" type="outline" icon="done" color="green"></mp-icon>
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+</mp-half-screen-dialog>
+
+<!-- 报错提示 -->
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>

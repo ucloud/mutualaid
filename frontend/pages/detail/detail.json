@@ -1,0 +1,22 @@
+{
+  "navigationBarTitleText": "求助详情",
+  "usingComponents": {
+    "mp-form-page": "weui-miniprogram/form-page/form-page",
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-half-screen-dialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-toptips": "weui-miniprogram/toptips/toptips",
+    "uc-avatar": "../../components/uc-avatar/uc-avatar",
+    "uc-distance": "../../components/uc-distance/uc-distance",
+    "uc-date": "../../components/uc-date/uc-date",
+    "uc-tags": "../../components/uc-tags/uc-tags",
+    "uc-avatar-name": "../../components/uc-avatar-name/uc-avatar-name",
+    "uc-create-time": "../../components/uc-create-time/uc-create-time",
+    "uc-contact": "../../components/uc-contact/uc-contact",
+    "wxml-to-canvas": "wxml-to-canvas"
+  }
+}

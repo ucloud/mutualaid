@@ -1,0 +1,71 @@
+{
+    "navigateToMiniProgramAppIdList": [],
+    "pages": [
+        "pages/index/index",
+        "pages/detail/detail",
+        "pages/askHelp/askHelp",
+        "pages/sendHelp/sendHelp",
+        "pages/my/my",
+        "pages/help/help"
+    ],
+    "permission": {
+        "scope.userLocation": {
+             "desc": "地理位置用于就近互助，不授权则使用上海中心位置代替。"
+         }
+     },
+    "window": {
+        "backgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "真爱梦想基金防疫中心",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#000000",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [{
+                "pagePath": "pages/index/index",
+                "iconPath": "images/tabbar_1.png",
+                "selectedIconPath": "images/tabbar_1_selected.png",
+                "text": "发现"
+            },
+            {
+                "pagePath": "pages/sendHelp/sendHelp",
+                "iconPath": "images/tabbar_2.png",
+                "selectedIconPath": "images/tabbar_2_selected.png",
+                "text": "我帮助的"
+            },
+            {
+                "pagePath": "pages/help/help",
+                "iconPath": "images/tabbar_add.png",
+                "selectedIconPath": "images/tabbar_add.png"
+            },
+            {
+                "pagePath": "pages/askHelp/askHelp",
+                "iconPath": "images/tabbar_3.png",
+                "selectedIconPath": "images/tabbar_3_selected.png",
+                "text": "我的求助"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "iconPath": "images/tabbar_4.png",
+                "selectedIconPath": "images/tabbar_4_selected.png",
+                "text": "关于"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 20000,
+        "connectSocket": 20000,
+        "uploadFile": 20000,
+        "downloadFile": 20000
+    },
+    "debug": true,
+    "sitemapLocation": "sitemap.json",
+    "useExtendedLib": {
+        "kbone": true,
+        "weui": true
+    },
+    "lazyCodeLoading": "requiredComponents"
+}

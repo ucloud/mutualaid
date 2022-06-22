@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "uc-avatar": "../uc-avatar/uc-avatar"
+  }
+}

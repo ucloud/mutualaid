@@ -1,0 +1,8 @@
+{
+    "exec-opts": ["native.cgroupdriver=systemd"],
+    "registry-mirrors": [
+        {% for mirror in docker_registry_mirrors %}
+        "{{ mirror }}" {% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}

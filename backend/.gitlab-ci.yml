@@ -1,0 +1,83 @@
+# 全局变量
+variables:
+  IMAGE_NAME: "uhub.service.ucloud.cn/mutualaid/mutualaid"
+
+# stages 顺序运行, 同一个 stage 的所有 job 并行
+stages:
+  - Compile
+  - BuildImage
+  - Deploy
+
+# 编译项目代码
+compile:
+  tags:
+    - uaek-c1
+  stage: Compile
+  image: hub.ucloudadmin.com/golang/golang-build:1.17-2-alpine
+  artifacts:
+    paths:
+      - ./bin
+  script:
+    - sh deploy/compile.sh
+  only:
+    - tags
+
+.common:
+  stage: BuildImage
+  tags:
+    - uaek-c1
+  image: hub.ucloudadmin.com/public/uaek-kaniko-executor:latest
+  before_script:
+    - IMAGE_TAG=$CI_COMMIT_TAG
+    - echo $IMAGE_NAME $IMAGE_TAG
+
+# 构建镜像: 仅特定格式tag触发
+docker-image:
+  extends: .common
+  script:
+    - /kaniko/executor -c $CI_PROJECT_DIR -f ./Dockerfile -d $IMAGE_NAME:$IMAGE_TAG --build-arg CI_JOB_TOKEN=$CI_JOB_TOKEN --snapshotMode=redo
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?/
+
+
+.deploy_template:
+  stage: Deploy
+  image: hub.ucloudadmin.com/devops/ansible:2.11-1-alpine
+  tags:
+    - csr-runner-a3
+  allow_failure: false
+  when: manual
+
+bootstrap-app:
+  extends: .deploy_template
+  script:
+    - |-
+      echo "Bootstrap backend nodes w/ ansible..."
+      cd deploy/ansible
+      export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
+      ansible-playbook -i hosts playbook-infra.yml
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /^bv[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?/
+
+deploy-app:
+  extends: .deploy_template
+  script:
+    - |-
+      echo "deploy application w/ ansible..."
+      cd deploy/ansible
+      export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
+      ansible-playbook -i hosts \
+          -e "version=${CI_COMMIT_TAG} login=${UHUB_LOGIN_NAME} password=${UHUB_LOGIN_PASSWORD}" \
+          playbook-app.yml
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?/
+

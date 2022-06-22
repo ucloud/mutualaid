@@ -1,0 +1,15 @@
+.uc-avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 4px;
+}
+
+.uc-avatar-lg {
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.uc-avatar-sm {
+  width: 40rpx;
+  height: 40rpx;
+}

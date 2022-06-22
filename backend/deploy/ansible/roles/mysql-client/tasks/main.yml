@@ -1,0 +1,33 @@
+---
+
+- name: Copy official MySQL rpm-gpg keys
+  copy:
+    src: "{{ item }}"
+    dest: /tmp
+  loop:
+    - RPM-GPG-KEY-mysql
+    - RPM-GPG-KEY-mysql-2022
+
+- name: Import official MySQL rpm-gpg keys
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ item }}"
+  loop:
+    - /tmp/RPM-GPG-KEY-mysql
+    - /tmp/RPM-GPG-KEY-mysql-2022
+
+# mysql-community-client does not exist in MySQL 5.7
+- name: Add official MySQL yum repository
+  yum_repository:
+    name: mysql80-community
+    description: MySQL 80 Community Server
+    file: mysql80-community
+    baseurl: http://repo.mysql.com/yum/mysql-8.0-community/el/7/$basearch
+    gpgcheck: yes
+
+- name: Install MySQL client
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - mysql-community-client

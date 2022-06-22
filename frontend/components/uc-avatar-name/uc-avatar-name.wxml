@@ -1,0 +1,4 @@
+<view class="uc-avatar-name">
+  <uc-avatar class="uc-avatar-name__avatar" src="{{avatar || defaultAvatar}}" size="sm"></uc-avatar>
+  <text class="uc-avatar-name__name">{{name || defaultName}}</text>
+</view>

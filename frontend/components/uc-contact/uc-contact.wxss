@@ -1,0 +1,31 @@
+.uc-contact {
+  display: flex;
+  padding: 10rpx;
+  background: #F5F5F9;
+  align-items: center;
+}
+
+.uc-contact__icon {
+  background: #FFFFFF;
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 18rpx;
+}
+
+.uc-contact__detail {
+  flex: 1 1 auto;
+}
+
+.uc-contact__detail-main {
+  margin-bottom: 5rpx;
+  font-size: 26rpx;
+  color: #000000;
+  line-height: 34rpx;
+  font-weight: 400;
+}
+
+.uc-contact__detail-desc {
+  font-size: 24rpx;
+  color: #525266;
+  font-weight: 400;
+}

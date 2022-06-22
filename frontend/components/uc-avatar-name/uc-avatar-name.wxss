@@ -1,0 +1,17 @@
+.uc-avatar-name {
+  display: inline-block;
+  font-size: 28rpx;
+  color: #7D7D8A;
+  font-weight: 400;
+}
+
+.uc-avatar-name__avatar {
+  display: inline-block;
+  margin-right: 8rpx;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.uc-avatar-name__name {
+  vertical-align: middle;
+}

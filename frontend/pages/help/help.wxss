@@ -1,0 +1,16 @@
+/* pages/help.wxss */
+.bottom-area{
+    padding: 32rpx;
+    width: 100%;
+    position: fixed; 
+    bottom: 0;
+    background-color: #fff;
+}
+
+#form{
+    background-color: #fff;
+}
+
+.address .weui-cell__bd{
+    color: var(--weui-FG-1);
+}

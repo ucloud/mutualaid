@@ -1,0 +1,670 @@
+syntax = "proto3";
+
+package api.mutualaid;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/ucloud/mutualaid/backend/api/mutualaid;mutualaid";
+option java_package = "com.ucloud.csr.mutualaid.mutualaid";
+option java_outer_classname = "UStoreProto";
+option java_multiple_files = true;
+
+service UserService {
+  // 公众号oauth
+  rpc WxOAuth2 (WxOAuth2Req) returns (WxOAuth2Resp){
+    option (google.api.http) = {
+      get: "/wxoauth2"
+    };
+  }
+  // 小程序wx.Login
+  rpc WxLogin (WxLoginReq) returns (WxLoginResp){
+    option (google.api.http) = {
+      post: "/wxlogin"
+      body: "*"
+    };
+  }
+
+  // 小程序激活用户, 是WxLogin的超集
+  rpc ActiveUser (ActiveUserReq) returns (ActiveUserResp){
+    option (google.api.http) = {
+      post: "/activeuser"
+      body: "*"
+    };
+  }
+  // 小程序取用户手机号
+  rpc WxPhoneNumber (WxPhoneNumberReq) returns (WxPhoneNumberResp){
+    option (google.api.http) = {
+      get: "/wx_phone_number"
+    };
+  }
+  // 查看自己的信息
+  rpc GetUser (GetUserReq) returns (GetUserResp){
+    option (google.api.http) = {
+      get: "/user"
+    };
+  }
+  // 辅助前端进行参数签名
+  rpc JSAPISign (JSAPISignReq) returns (JSAPISignResp) {
+    option (google.api.http) = {
+      post: "/js_api_sign"
+      body: "*"
+    };
+  }
+}
+
+service MutualAidQuery {
+  /**
+   *  发现接口，需要过滤，只展示等待审核的
+   *  发现接口
+   */
+  rpc Discovery(DiscoveryReq) returns (DiscoveryResp) {
+    option (google.api.http) = {
+      get: "/discovery"
+    };
+  };
+
+}
+
+service ExamineAid {
+
+  /**
+  *  审核用户登录
+  */
+  rpc ExamineLogin (ExamineLoginReq) returns (ExamineLoginResp){
+    option (google.api.http) = {
+      post: "/examine_login"
+      body: "*"
+    };
+  }
+
+  /**
+  *  获取求助列表
+  */
+  rpc GetExamineList(GetExamineListReq) returns (ExamineListResp) {
+    option (google.api.http) = {
+      get: "/examine/aid"
+    };
+  };
+
+  /**
+  *  审核消息
+  */
+  rpc ExamineAid(ExamineAidReq) returns (ExamineAidResp) {
+    option (google.api.http) = {
+      post: "/examine/aid/{id}"
+      body: "*"
+    };
+  };
+ 
+  // 拉黑用户（包含屏蔽基消息）
+  rpc BlockUser(BlockUserReq) returns (BlockUserResp) {
+    option (google.api.http) = {
+      delete: "/examine/user/{id}"
+    };
+  };
+  
+  // 获取屏蔽用户列表
+  rpc GetBlockUserList(GetBlockUserListReq) returns (GetBlockUserListResp) {
+    option (google.api.http) = {
+      get: "/examine/blockuser"
+    };
+  };
+  
+  // 恢复用户（包含恢复其消息）
+    rpc PassUser(PassUserReq) returns (PassUserResp) {
+    option (google.api.http) = {
+      post: "/examine/user/{id}"
+      body: "*"
+    };
+  };
+
+
+}
+
+service UserAidQuery {
+  /**
+  *  我的帮助查询接口,这里可以展示自己全部的消息
+  */
+  rpc ListAidOffered(ListAidOfferedReq) returns (ListAidOfferedResp) {
+    option (google.api.http) = {
+      get: "/user/aid/offered"
+    };
+  };
+
+  /**
+  *  我的求助查询接口,这里可以展示自己全部的消息
+  *  我的求助查询接
+  */
+  rpc ListAidNeeds(ListAidNeedsReq) returns (ListAidNeedsResp) {
+    option (google.api.http) = {
+      get: "/user/aid/needs"
+    };
+  };
+
+  /**
+  *  求助详情查询接口
+  */
+  rpc GetAidDetail(GetAidDetailReq) returns (GetAidDetailResp) {
+    option (google.api.http) = {
+      get: "/user/aid/{id}"
+    };
+  };
+}
+
+service UserAidManager {
+  /**
+  *  新建求助
+  */
+  rpc CreateAid(CreateAidReq) returns (CreateAidResp) {
+    option (google.api.http) = {
+      post: "/user/aid"
+      body: "*"
+    };
+  };
+
+  /**
+  *  我的求助查询接口
+  */
+  rpc CancelAid(CancelAidReq) returns (CancelAidResp) {
+    option (google.api.http) = {
+      delete: "/user/aid/{id}"
+    };
+  };
+
+  /**
+  *  完成救助接口
+  */
+  rpc FinishAid(FinishAidReq) returns (FinishAidResp) {
+    option (google.api.http) = {
+      put: "/user/aid/{id}"
+      body: "*"
+    };
+  };
+
+  /**
+  *  留言接口
+  */
+  rpc CreateAidMessage(CreateAidMessageReq) returns (CreateAidMessageResp) {
+    option (google.api.http) = {
+      post: "/user/aid/message"
+      body: "*"
+    };
+  };
+
+}
+
+message WxOAuth2Req {
+  string code = 1;
+  string state = 2;
+  string openid = 3;
+}
+message WxOAuth2Resp {}
+
+message WxLoginReq{
+  string login_code = 1;
+  string name = 2;
+}
+
+message ExamineLoginReq{
+  string username = 1;  // 用户名
+  string password = 2;   // 密码
+}
+message ExamineLoginResp{
+ }
+message WxLoginResp{
+  bool need_active = 2;
+}
+
+message WxPhoneNumberReq{
+  string phone_code = 1;
+}
+message WxPhoneNumberResp{
+  string phone = 1;
+}
+
+message ActiveUserReq {
+  string login_code = 1;
+  string phone_code = 2;
+  string open_id = 3;
+  string addr = 4;
+  float longitude = 5; // 坐标：经度
+  float latitude = 6; // 坐标：纬度
+  string name = 7;
+  string icon = 8; // 头像
+}
+message ActiveUserResp { }
+
+message GetUserReq {}
+message UserInfo {
+  string name = 1;
+  string phone = 2; // 完整的号码, 没权限时为空
+  string icon = 3; // 头像
+  string addr = 4; // 地址
+  string status = 5; // 状态
+}
+message GetUserResp {
+  UserInfo user = 1;
+}
+
+message JSAPISignReq {
+  string api_url = 1;
+}
+message JSAPISignResp {
+  string noncestr = 1;
+  int64 timestamp = 2;
+  string sign     = 3;
+}
+
+message DiscoveryReq {
+  // 纬度，范围为 -90~90，负数表示南纬
+  float latitude = 1 [(validate.rules).float = { gte:-90, lt: 90 }];
+
+  // 经度，范围为 -180~180，负数表示西经
+  float longitude = 2 [(validate.rules).float = { gte:-180, lt: 180 }];
+
+  // 页码
+  int32 page_number = 3;
+
+  // 页大小
+  int32 page_size = 4 [(validate.rules).int32 = { in:[10, 20, 50] }];
+}
+
+message DiscoveryResp {
+  // 求助列表
+  repeated Aid list = 1;
+
+  // 总数
+  int64 total_size = 2;
+}
+
+message GetExamineListReq {
+  // 页码
+  int32 page_number = 1;
+
+  // 页大小
+  int32 page_size = 2 [(validate.rules).int32 = { in:[10, 20, 50] }];
+
+  // 审核状态
+  int32 examine_status = 3 ;
+
+  // 状态排序规则
+  string examine_status_order = 4 [(validate.rules).string = { min_len: 0, max_len: 4 ,in:['DESC','ASC'] }];
+
+  // 创建时间排序规则
+  string create_time_order = 5 [(validate.rules).string = { min_len: 0, max_len: 4 ,in:['DESC','ASC'] }];
+
+  // 更新时间排序规则
+  string update_time_order = 6 [(validate.rules).string = { min_len: 0, max_len: 4 ,in:['DESC','ASC'] }];
+
+  // 审核状态
+  string vague_search = 7 ;
+}
+
+message ExamineListResp {
+  // 等待审核的求助列表
+  repeated Aid list = 1;
+
+  // 订单总数
+  int64 total_size = 2;
+
+  // 待审核订单总数
+  int64 waiting_size = 3;
+
+  // 通过订单总数
+  int64 pass_size = 4;
+
+  // 驳回订单总数
+  int64 block_size = 5;
+}
+
+ message ExamineAidReq {
+  // 求助ID
+  uint64 id = 1;
+
+  // 执行动作，审核通与不通过。
+  string examine_action = 2 [(validate.rules).string = { min_len: 0, max_len: 8 ,in:['PASS','BLOCK','UNBLOCK'] }];
+}
+
+ 
+message ExamineAidResp {
+}
+
+message BlockUserReq {
+  // 用户ID
+  uint64 id = 1;
+ 
+}
+
+message BlockUserResp {
+}
+
+
+message PassUserReq {
+  // 用户ID
+  uint64 id = 1;
+ 
+}
+message PassUserResp {
+}
+
+
+message GetBlockUserListReq {
+ 
+}
+message GetBlockUserListResp {
+  repeated BlockUserInfo list = 1;
+
+}
+
+message BlockUserInfo {
+  string name = 1;  //用户名
+  string phone = 2; // 完整的号码, 没权限时为空
+  string icon = 3; // 头像
+  string addr = 4; // 地址
+  int64 id = 5; // Id
+  int64 create_time = 6; // 创建时间
+  int64 status = 7; // I状态
+}
+
+
+message ListAidOfferedReq {
+  // 页码
+  int64 page_number = 1;
+
+  // 页大小
+  int64 page_size = 2;
+
+  // 纬度，范围为 -90~90，负数表示南纬
+  float latitude = 3 [(validate.rules).float = { gte:-90, lt: 90 }];
+
+  // 经度，范围为 -180~180，负数表示西经
+  float longitude = 4 [(validate.rules).float = { gte:-180, lt: 180 }];
+}
+
+message ListAidOfferedResp {
+  // 求助列表
+  repeated Aid list = 1;
+
+  // 总数
+  int64 total_size = 2;
+}
+
+message ListAidNeedsReq {
+  // 页码
+  int64 page_number = 1;
+
+  // 页大小
+  int64 page_size = 2;
+
+  // 纬度，范围为 -90~90，负数表示南纬
+  float latitude = 3 [(validate.rules).float = { gte:-90, lt: 90 }];
+
+  // 经度，范围为 -180~180，负数表示西经
+  float longitude = 4 [(validate.rules).float = { gte:-180, lt: 180 }];
+}
+
+message ListAidNeedsResp {
+  // 求助列表
+  repeated Aid list = 1;
+
+  // 总数
+  int64 total_size = 2;
+}
+
+message GetAidDetailReq {
+  // 求助ID
+  uint64 id = 1;
+
+  // 纬度，范围为 -90~90，负数表示南纬
+  float latitude = 2 [(validate.rules).float = { gte:-90, lt: 90 }];
+
+  // 经度，范围为 -180~180，负数表示西经
+  float longitude = 3 [(validate.rules).float = { gte:-180, lt: 180 }];
+
+}
+
+message GetAidDetailResp {
+  // 求助信息
+  Aid aid = 1;
+  // 是不是我发的求助
+  bool is_my_aid = 2;
+  // 是不是我帮助过的求助
+  bool is_my_help = 3;
+}
+
+message CreateAidReq {
+  // 纬度，范围为 -90~90，负数表示南纬
+  float latitude = 1 [(validate.rules).float = { gte:-90, lt: 90 }];
+
+  // 经度，范围为 -180~180，负数表示西经
+  float longitude = 2 [(validate.rules).float = { gte:-180, lt: 180 }];
+
+  // 求助类型
+  AidType type = 3;
+
+  // 求助人群
+  AidGroup group = 4;
+
+  // 紧急程度
+  EmergencyLevel emergency = 5;
+
+  // 求助内容，即求助描述
+  string content = 6 [(validate.rules).string = { min_len: 0, max_len: 300 }];
+
+  // 联系电话
+  string phone = 7;
+
+  // 联系电话
+  string addr = 8;
+}
+
+message CreateAidResp {
+  // 求助ID
+  uint64 id = 1;
+}
+
+
+message CancelAidReq {
+  // 求助ID
+  uint64 id = 1;
+}
+
+message CancelAidResp {
+}
+
+message FinishAidReq {
+  // 求助ID
+  uint64 id = 1;
+
+  // 最有用留言ID，自己解决则不传。
+  uint64 message_id = 2;
+}
+
+message FinishAidResp {
+}
+
+message CreateAidMessageReq {
+  // 求助ID
+  uint64 id = 1 [(validate.rules).uint64.gt = 0];
+
+  // 联系电话
+  string phone = 2 [(validate.rules).string.min_len = 3];
+
+  // 留言内容，即帮助信息
+  string content = 3 [(validate.rules).string = { min_len: 0, max_len: 300 }];
+}
+
+message CreateAidMessageResp {
+}
+
+enum AidType {
+  unspecifiedAidType = 0;
+
+  // 10-食品生活物资
+  Food = 10;
+
+  // 15-就医
+  Docker = 20;
+
+  // 20-求药
+  Pill = 30;
+
+  // 25-防疫物资
+  AntiEpidemic = 40;
+
+  // 30-隔离求助
+  Isolation = 50;
+
+  // 35-心理援助
+  Psychotherapy = 60;
+
+  // 40-其他
+  Other = 99;
+}
+
+enum AidGroup {
+  unspecifiedAidGroup = 0;
+
+  // 10-重症患者
+
+  CriticallyIllPatients = 1;
+
+  // 15-儿童婴儿
+  ChildrenAndBabies = 2;
+
+  // 20-孕妇
+  PregnantWoman = 3;
+
+  // 25-老人
+  Elder = 40;
+
+  // 30-残障
+  TheDisabled = 50;
+
+  // 35-外来务工人员
+  MigrantWorkers = 60;
+
+  // 40-滞留人员
+  StrandedPersonnel = 70;
+
+  // 45-新冠阳性
+  COVID19Positive = 80;
+
+  // 50-医护工作者
+  MedicalWorkers = 90;
+
+  // 55-街道社区
+  Community = 100;
+
+  // 60-外籍人士
+  Foreigner = 110;
+  //  其他
+  Others = 120;
+
+}
+
+enum EmergencyLevel {
+  unspecifiedEmergency = 0;
+
+  // 1-威胁生命
+  LifeThreatening = 1;
+
+  // 2-威胁健康
+  HealthThreatening = 2;
+
+  // 3-处境困难
+  DifficultSituation = 3;
+
+  // 4-暂无危险
+  NoEmergency = 4;
+}
+
+enum Status {
+  unspecified = 0;
+
+  // 10-已创建
+  Created = 10;
+
+  // 15-已取消
+  Canceled = 15;
+
+  // 20-已完成
+  Finished = 20;
+}
+
+
+message Aid {
+  // 求助ID
+  uint64 id = 1;
+
+  // 求助类型
+  int32 type = 2;
+
+  // 求助人群
+  int32 group = 3;
+
+  // 紧急程度
+  int32 emergency = 4;
+
+  // 求助内容，即求助描述
+  string content = 5;
+
+  // 距离（米）
+  int64 distance = 6;
+
+  // 求助时间，UNIX时间戳
+  int64 create_time = 7;
+
+  // 状态
+  int32 status = 8;
+
+  // 审核状态
+  int32 examine_status = 9;
+  
+  // 留言数量
+  int32 message_count = 10;
+
+  // 帮助留言
+  repeated Message message = 11;
+
+  // 个人信息
+  UserInfo user = 12;
+
+  // 个人信息是否可见
+  bool display_pim = 13;
+
+  // 更新时间
+  int64 update_time = 14;
+
+  // 用户Id
+  int64 user_id = 15;
+  
+  // 地址
+  string address  = 16 ;
+
+}
+
+// 留言
+message Message {
+  // 留言ID
+  uint64 id = 1;
+
+  // 联系电话, 经过脱敏处理
+  string mask_phone = 2;
+
+  // 留言内容，即帮助说明
+  string content = 3;
+
+  // 回复时间，UNIX时间戳
+  int64 create_time = 7;
+
+  // 状态
+  int32 status = 8;
+
+  // 个人信息
+  UserInfo user = 11;
+
+  // 个人信息是否可见
+  bool display_pim = 12;
+}

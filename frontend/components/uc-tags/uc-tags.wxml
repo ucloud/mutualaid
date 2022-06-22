@@ -1,0 +1,9 @@
+<view class="item-tag-box">
+    <view class="tag-item {{disabled ? 'disabled-status': 'tag-type'}}">{{tagList.typeText}}</view>
+    <view class="tag-item {{disabled ? 'disabled-status': 'tag-person'}}">
+        {{tagList.groupText}}
+    </view>
+    <view class="tag-item tag-level {{disabled ? 'disabled-status': tagList.colorLevel}}">
+        {{tagList.emergencyText}}
+    </view>
+</view>
